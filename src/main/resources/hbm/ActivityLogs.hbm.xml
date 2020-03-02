@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping auto-import="true" default-lazy="false" default-access="field">
-  <class name="com.aholdusa.am.audittracking.entity.ActivityLogs" table="ACTIVITY_LOGS" dynamic-update="true">
+  <class name="com.aholdusa.am.audittracking.entity.ActivityLogs" table="activity_logs" dynamic-update="true">
     <id name="id" column="ACTIVITY_LOGS_ID" type="java.lang.Long">
         <!--  <generator class="IDENTITY" />   -->
 			<generator class="native">

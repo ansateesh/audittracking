@@ -3,7 +3,7 @@
 
 <hibernate-mapping auto-import="true" default-lazy="false"
 	default-access="field">
-	<class name="com.aholdusa.am.audittracking.entity.Lane" table="LANES"
+	<class name="com.aholdusa.am.audittracking.entity.Lane" table="lanes"
 		dynamic-update="true">
 		<id name="id" column="LANES_ID" type="java.lang.Long">
 			<!-- <generator class="identity" /> -->

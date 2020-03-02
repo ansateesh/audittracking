@@ -4,7 +4,7 @@
 <hibernate-mapping auto-import="true" default-lazy="false"
 	default-access="field">
 	<class name="com.aholdusa.am.audittracking.entity.Messages"
-		table="MESSAGES" dynamic-update="true">
+		table="messages" dynamic-update="true">
 		<id name="id" column="MSG_ID" type="java.lang.Long">
 			<!-- <generator class="identity" />   -->
 			<generator class="native">
