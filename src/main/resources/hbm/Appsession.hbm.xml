@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="true" default-lazy="false" default-access="field">
+  <class name="com.aholdusa.am.audittracking.entity.Appsession" table="APP_SESSIONS" dynamic-update="true">
+    <id name="id" column="APP_SESSIONS_ID" type="java.lang.Long">
+      <!-- <generator class="identity" />   -->
+      <generator class="native">
+                        <param name="sequence">seq_app_sessions_id</param>
+                </generator>
+    </id>
+    
+    <property name="storeNumber" column="STORE_NUMBER" type="java.lang.Integer" not-null="true" />
+    <property name="appName" column="APP_NAME" type="java.lang.String" not-null="true" />
+    <property name="appKey" column="APP_KEY" type="java.lang.String" not-null="true" />
+    <property name="createDate" column="CREATED_DATE" type="java.sql.Timestamp" />
+  </class>
+  <query name="findByKey">
+  	<![CDATA[select appsession from Appsession appsession where appKey = :appKey]]>
+  </query>
+</hibernate-mapping>

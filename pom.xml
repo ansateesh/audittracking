@@ -1,0 +1,378 @@
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.aholdusa.am.be</groupId>
+  <artifactId>audittracking</artifactId>
+    <version>1.0</version>
+  
+  <!--<parent>
+    <groupId>com.aholdusa.am</groupId>
+    <artifactId>be</artifactId>
+    <version>1.0</version>
+  </parent>-->
+
+  <properties>
+    <mysql.schemaName>audittracking</mysql.schemaName>
+  </properties>
+
+  <dependencies>
+    <!-- Servlet -->
+     <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>4.1.6.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>4.1.6.RELEASE</version>
+    </dependency>
+        <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <version>4.1.6.RELEASE</version>
+    </dependency>
+       <dependency>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-mongodb</artifactId>
+      <version>1.7.0.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet.jsp</groupId>
+      <artifactId>jsp-api</artifactId>
+      <version>2.2</version>
+    </dependency>
+    <!-- <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>4.3.5.Final</version>
+    </dependency> -->
+    
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-hibernate4</artifactId>
+      <version>2.4.0</version>
+    </dependency> 
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>2.4.0</version>
+    </dependency>   
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+	<version>3.4</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+	<version>2.4</version>
+    </dependency>
+ 
+<dependency>
+	<groupId>net.sf.jasperreports</groupId>
+	<artifactId>jasperreports</artifactId>
+	<version>5.5.0</version>
+</dependency>
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.3.1</version>
+</dependency>
+ <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet.jsp</groupId>
+      <artifactId>jsp-api</artifactId>
+      <version>2.2</version>
+    </dependency>
+    <dependency>
+	<groupId>javax.servlet.jsp.jstl</groupId>
+	<artifactId>javax.servlet.jsp.jstl-api</artifactId>
+	<version>1.2.1</version>
+</dependency>
+<dependency>
+	<groupId>taglibs</groupId>
+	<artifactId>standard</artifactId>
+	<version>1.1.2</version>
+	<scope>compile</scope>
+</dependency>
+	<!--Mysql-Connector-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.46</version>
+        </dependency>
+    <!-- Spring framework -->
+    <!-- <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>4.1.6.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>4.1.6.RELEASE</version>
+    </dependency> -->
+    <!-- Spring AOP + AspectJ -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aop</artifactId>
+      <version>4.1.6.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+      <version>1.8.5</version>
+    </dependency>
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjweaver</artifactId>
+      <version>1.8.5</version>
+    </dependency>
+    <!-- Spring Web MVC Features -->
+     
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>4.1.6.RELEASE</version>
+    </dependency>
+    <!-- Spring Data - JDBC, MongoDB, ORM Features -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
+      <version>4.1.6.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-tx</artifactId>
+      <version>4.1.6.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+      <version>4.1.6.RELEASE</version>
+    </dependency>
+   <!--  <dependency>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-mongodb</artifactId>
+      <version>1.7.0.RELEASE</version>
+    </dependency> -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-dbcp2</artifactId>
+      <version>2.0</version>
+    </dependency>
+    <!-- MongoDB Driver -->
+    <dependency>
+      <groupId>org.mongodb</groupId>
+      <artifactId>mongo-java-driver</artifactId>
+      <version>2.12.4</version>
+    </dependency>
+    <!-- Hibernate dependencies -->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>4.3.6.Final</version>
+    </dependency>
+    <dependency>
+      <groupId>org.javassist</groupId>
+      <artifactId>javassist</artifactId>
+      <version>3.19.0-GA</version>
+    </dependency>
+    <!-- Apache Shiro Security -->
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-core</artifactId>
+      <version>1.2.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-web</artifactId>
+      <version>1.2.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-aspectj</artifactId>
+      <version>1.2.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-ehcache</artifactId>
+      <version>1.2.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-spring</artifactId>
+      <version>1.2.3</version>
+    </dependency>
+    <!-- Misc -->
+    <dependency>
+      <groupId>cglib</groupId>
+      <artifactId>cglib</artifactId>
+      <version>3.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.12</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>1.7.12</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+      <version>1.7.7</version>
+    </dependency>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>apache-log4j-extras</artifactId>
+      <version>1.2.17</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.4</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-collections4</artifactId>
+      <version>4.0</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-configuration</groupId>
+      <artifactId>commons-configuration</artifactId>
+      <version>1.10</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
+      <version>1.9.13</version>
+    </dependency>
+
+ <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.12</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>1.7.12</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+      <version>1.7.7</version>
+    </dependency>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>apache-log4j-extras</artifactId>
+      <version>1.2.17</version>
+    </dependency>
+    <dependency>
+	<groupId>org.apache.poi</groupId>
+	<artifactId>poi</artifactId>
+	<version>3.10-FINAL</version>
+</dependency>
+    
+    <!-- Drools -->
+	<!-- 
+	<dependency>
+		<groupId>org.drools</groupId>
+		<artifactId>drools-spring</artifactId>
+		<version>5.6.0.Final</version>
+	</dependency>
+	  -->
+	
+    <dependency>
+	  <groupId>org.drools</groupId>
+	  <artifactId>drools-core</artifactId>
+	  <version>6.3.0.Final</version>
+       </dependency>
+	<dependency>
+		<groupId>org.drools</groupId>
+		<artifactId>drools-compiler</artifactId>
+		<version>6.3.0.Final</version>
+	</dependency>
+    
+    
+    <!-- Hibernate Validator -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>4.2.0.Final</version>
+		</dependency>
+    <!-- Test scoped dependencies -->
+
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-test</artifactId>
+		<version>4.1.4.RELEASE</version>
+	</dependency>
+   
+   
+   <dependency>
+	<groupId>org.mockito</groupId>
+	<artifactId>mockito-all</artifactId>
+	<version>1.9.5</version>
+</dependency>
+	<dependency>
+		<groupId>junit</groupId>
+		<artifactId>junit</artifactId>
+		<version>4.12</version>
+	</dependency> 
+    
+    <dependency>
+    	<groupId>xerces</groupId>
+    	<artifactId>xerces</artifactId>
+    	<version>2.4.0</version>
+    </dependency>
+    <dependency>
+    	<groupId>xalan</groupId>
+    	<artifactId>xalan</artifactId>
+    	<version>2.7.2</version>
+    </dependency>
+    <dependency>
+    	<groupId>xalan</groupId>
+    	<artifactId>serializer</artifactId>
+    	<version>2.7.2</version>
+    </dependency>
+  </dependencies>
+  
+  <build>
+      <pluginManagement>
+         <plugins>
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-site-plugin</artifactId>
+               <configuration>
+                  <unzipCommand>/usr/bin/unzip -o > err.txt</unzipCommand>
+               </configuration>
+            </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.3</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+		</plugins>
+      </pluginManagement>
+   </build>
+  
+  <packaging>war</packaging>
+</project>

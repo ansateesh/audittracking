@@ -1,0 +1,19 @@
+package com.aholdusa.rules
+
+import com.aholdusa.am.audittracking.entity.OverShortReport
+
+dialect "mvel"
+
+/*
+ * @author iaguilar and @robert
+ * Rules for handling OverShortAmt
+ * set isDeleted flag true/false base on overShortAmt  
+ */
+
+rule "OverShort Amount Positive Threshold  Rule"
+    when
+        $overShortReport : OverShortReport(overShortAmount< 25.0 && overShortAmount> -25.0)
+    then
+        $overShortReport.setIsDeleted(true);
+end
+

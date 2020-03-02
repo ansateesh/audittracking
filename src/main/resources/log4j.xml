@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="true">
+  <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+    <param name="Target" value="System.out" />
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="[%-23d{ISO8601}] %-5p %x [%c] JSessionID=%X{sessionId}, UserName=%X{userName} -- %m\n" />
+    </layout>
+  </appender>
+
+  <appender name="APP_LOG_FILE" class="org.apache.log4j.rolling.RollingFileAppender">
+    <param name="File" value="/auditLogs/audit-tracking.log" />
+    <param name="append" value="true" />
+    <param name="encoding" value="UTF-8" />
+    <rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
+      <!-- The file to roll to, this is a fairly intelligent parameter, if the file ends in .gz, it gzips it, based on the date stamp it rolls at that 
+        time, default is yyyy-MM-dd, (rolls at midnight) See: http://logging.apache.org/log4j/companions/extras/apidocs/org/apache/log4j/rolling/TimeBasedRollingPolicy.html -->
+      <param name="FileNamePattern" value="/auditLogs/audit-tracking.log.%d{yyyy-MM-dd-HH}.gz" />
+    </rollingPolicy>
+
+    <!--triggeringPolicy class="org.apache.log4j.rolling.SizeBasedTriggeringPolicy"> <param name="maxFileSize" value="100000000" /> </triggeringPolicy -->
+
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="[%-23d{ISO8601}] %-5p %x [%c] JSessionID=%X{sessionId}, UserName=%X{userName} -- %m\n" />
+    </layout>
+  </appender>
+
+  <appender name="ASYNC" class="org.apache.log4j.AsyncAppender">
+    <param name="BufferSize" value="100000" />
+    <appender-ref ref="APP_LOG_FILE" />
+  </appender>
+  
+  <category name="com.aholdusa.taskmanagement">
+    <priority value="DEBUG" />
+    <appender-ref ref="CONSOLE" />
+  </category>
+
+  <!-- logger name="org.springframework" level="TRACE"> <appender-ref ref="APPS_LOG_FILE"/> </logger -->
+
+  <logger category="org.jboss.ws.core.MessageTrace">
+    <level name="TRACE" />
+  </logger>
+
+  <root>
+    <priority value="INFO" />
+      <appender-ref ref="FILE" />
+      <appender-ref ref="CONSOLE" />
+    <appender-ref ref="ASYNC" />
+  
+  </root>
+</log4j:configuration>

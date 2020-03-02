@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="true" default-lazy="false"
+	default-access="field">
+	<class name="com.aholdusa.am.audittracking.entity.RequestLog"
+		table="request_logs" dynamic-update="true">
+
+		<id name="id" column="request_log_id" type="java.lang.Long">
+			<!-- <generator class="identity" /> -->
+			<generator class="native">
+				<param name="sequence">seq_request_logs_id</param>
+			</generator>
+		</id>
+		<property name="requestPayLoad" column="request_payload"
+			type="java.lang.String" />
+		<property name="responsePayLoad" column="response_payload"
+			type="java.lang.String" />
+		<property name="uri" column="uri" type="java.lang.String" />
+		<property name="requestDate" column="request_date" type="java.sql.Timestamp" />
+
+		<property name="isDeleted" type="boolean">
+
+			<column name="IS_DELETED" sql-type="char" not-null="true" />
+		</property>
+
+
+
+	</class>
+
+</hibernate-mapping>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM 
+    "classpath://org/hibernate/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+    
+       	<property name="hibernate.connection.datasource">java:comp/env/jdbc/audittracking</property>
+       
+	     <!--    	  
+    	 <property name="hibernate.connection.datasource">java:/audittracking_oracle</property> 
+	      --> 
+		<!-- <property name="hibernate.dialect">org.hibernate.dialect.OracleDialect</property> -->
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+		<property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>
+		<!-- <property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property> -->
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="current_session_context_class">thread</property>
+		<property name="hibernate.current_session_context_class">org.springframework.orm.hibernate4.SpringSessionContext</property>
+		<property name="configurationClass">org.hibernate.cfg.AnnotationConfiguration</property>
+		<property name="hibernate.jdbc.fetch_size">10</property>
+		<property name="hibernate.jdbc.batch_size">10</property>
+		<property name="hibernate.default_batch_fetch_size">16</property>
+		<property name="hibernate.connection.autoReconnect">true</property>
+		<property name="hibernate.connection.autoReconnectForPools">true</property>
+
+
+		<!-- TRANSACTION -->
+		<property name="hibernate.transaction.auto_close_session">true</property>
+
+		<!-- SQL DIALECTS -->
+		<!-- <property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property> -->
+		<property name="hibernate.show_sql">true</property>
+
+		<!-- STATISTICS - this should not be enabled for production -->
+		<property name="hibernate.generate_statistics">false</property>
+
+		<!-- SQL DEBUGGING - this should not be enabled for production -->
+		<property name="hibernate.format_sql">true</property>
+		<property name="hibernate.use_sql_comments">true</property>
+		<!--  
+		<property name="hibernate.hbm2ddl.auto">validate</property> 
+		-->
+		<!-- validate | update | create | create-drop -->
+        
+		<!-- MISCELLANEOUS -->
+		<property name="hibernate.query.substitutions">true 1, false 0, Y 'y', N 'n'</property>
+		<!-- property name="hibernate.current_session_context_class">thread</property -->
+		<!-- property name="hibernate.current_session_context_class">org.springframework.orm.hibernate4.SpringSessionContext</property -->
+		<property name="hibernate.use_identifer_rollback">true</property>
+		<property name="hibernate.order_updates">true</property>
+
+		<mapping resource="hbm/Store.hbm.xml"></mapping>
+		<mapping resource="hbm/Lane.hbm.xml"></mapping>
+		<mapping resource="hbm/Employee.hbm.xml"></mapping>
+		<mapping resource="hbm/LaneHistory.hbm.xml"></mapping>
+		<mapping resource="hbm/Appsession.hbm.xml"></mapping>
+		<mapping resource="hbm/Audit.hbm.xml"></mapping>
+		<mapping resource="hbm/Messages.hbm.xml"></mapping>
+		<mapping resource="hbm/Till.hbm.xml"></mapping>
+		<mapping resource="hbm/ActivityLogs.hbm.xml"></mapping>
+	    <mapping resource="hbm/OverShortReports.hbm.xml"></mapping> 
+		<mapping resource="hbm/RequestLogs.hbm.xml"></mapping>
+		<mapping resource="hbm/NextmanagerEvents.hbm.xml"></mapping>
+	</session-factory>
+</hibernate-configuration>

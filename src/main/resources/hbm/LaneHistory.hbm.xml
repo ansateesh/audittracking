@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="true" default-lazy="false" default-access="field">
+ 
+  <class name="com.aholdusa.am.audittracking.entity.LaneHistory" table="LANE_ASSIGNMENTS" dynamic-update="true">
+    <id name="id" column="LANE_ASSIGNMENTS_ID" type="java.lang.Long">
+      <!-- <generator class="identity" />   -->
+       <generator class="native">
+                        <param name="sequence">seq_lane_assignments_id</param>
+                </generator>
+    </id>
+    <property name="storeNumber" column="STORE_NUMBER" type="java.lang.Integer"  />
+    
+    <property name="laneAssignmentDate" column="LANE_HISTORY_DATE" type="java.sql.Timestamp" />
+    <property name="startTime" column="START_TIME" type="java.sql.Timestamp"/>
+    <property name="endTime" column="END_TIME" type="java.sql.Timestamp" />
+    <property name="version" column="VERSION" type="java.lang.Long"  />
+    <property name="createdBy" column="CREATED_BY" type="java.lang.String" />
+    <property name="createDate" column="CREATED_DATE" type="java.sql.Timestamp" />
+    <property name="lastModifiedBy" column="LAST_MODIFIED_BY" type="java.lang.String" />
+    <property name="lastModifiedDate" column="LAST_MODIFIED_DATE" type="java.sql.Timestamp" />
+    <property name="isDeleted"  type="boolean" >
+			<column name="IS_DELETED" sql-type="char" not-null="true" />
+		</property>
+	<!-- FAILOVER Col. False Default Value -->	
+	 <property name="failover"  type="boolean" >
+			<column name="FAILOVER" sql-type="char" />
+	</property>
+			
+    <!--  RETAIN COL. retain-->		
+    <property name="retain"  type="boolean" >
+			<column name="RETAIN" sql-type="char" not-null="true" />
+		</property>
+    
+    <!-- 
+    <property name="laneId" column="LANE_ID" type="java.lang.Integer" />
+    <property name="employeeId" column="EMPLOYEE_ID" type="java.lang.Integer" /> 
+    -->
+    <many-to-one name="lane" class="com.aholdusa.am.audittracking.entity.Lane" fetch="select">
+      <column name="LANE_ID" not-null="true" />
+    </many-to-one>
+     
+    <many-to-one name="employee" class="com.aholdusa.am.audittracking.entity.Employee" fetch="select">
+      <column name="EMPLOYEE_ID" not-null="true" />
+    </many-to-one>
+    
+ <!--    <many-to-one name="store" class="com.aholdusa.am.audittracking.entity.Store" fetch="select">
+      <column name="STORE_NUMBER" />
+    </many-to-one> -->
+  </class>
+
+    <query name="findLaneHistoryByAssignment" >
+    <![CDATA[ 
+    	select laneHistory from LaneHistory laneHistory
+    	where laneHistory.storeNumber = :storeNumber 
+    	and DATE(laneAssignmentDate) = DATE(:date)
+    	and laneHistory.lane = (select lane from Lane lane where lane.id = :laneId )
+    	and laneHistory.isDeleted = '0' 
+    	and laneHistory.employee= (select employee from Employee employee where employee.id = :employeeId) 
+    ]]>
+    </query>
+    <query name="findAllLaneHistoryByDate" >
+    <![CDATA[
+	    select laneHistory
+	    from LaneHistory laneHistory 
+		where 	laneHistory.storeNumber = :storeNumber
+		and laneHistory.isDeleted = '0' 
+    	and 	DATE(laneHistory.laneAssignmentDate) = DATE(:date)
+		order by laneHistory.lane.number, laneHistory.startTime desc
+    ]]>
+    </query>
+	<query name="findLastLaneHistoryByDateAndLane" >
+    <![CDATA[
+	    select 	laneHistory
+	    from 	LaneHistory laneHistory 
+		where 	laneHistory.storeNumber = :storeNumber
+		and laneHistory.isDeleted = '0' 
+    	and 	DATE(laneHistory.laneAssignmentDate) = DATE(:date)
+    	and 	laneHistory.endTime is null
+		and		laneHistory.lane = ( select lane from Lane lane where number = :laneNumber and storeNumber = :storeNumber and isDeleted = '0') 
+		order by laneHistory.startTime desc
+    ]]>
+    </query>
+    <query name="findLastLaneHistoryByStoreAndLane" >
+    <![CDATA[
+	    select 	laneHistory
+	    from 	LaneHistory laneHistory 
+		where 	laneHistory.storeNumber = :storeNumber
+		and laneHistory.isDeleted = '0' 
+    	and 	laneHistory.endTime is null
+		and		laneHistory.lane = ( select lane from Lane lane where number = :laneNumber and storeNumber = :storeNumber and isDeleted = '0') 
+		order by laneHistory.startTime desc
+    ]]>
+    </query>
+     <query name="findAllLaneHistoryByDateAndLane" > 
+    <![CDATA[
+	    select 	laneHistory
+	    from 	LaneHistory laneHistory 
+		where 	laneHistory.storeNumber = :storeNumber
+		and laneHistory.isDeleted = '0' 
+    	and 	DATE(laneHistory.laneAssignmentDate) = DATE(:date)
+		and		laneHistory.lane = ( select lane from Lane lane where number = :laneNumber and storeNumber = :storeNumber and isDeleted = '0') 
+		order by laneHistory.startTime asc
+    ]]>
+    </query>
+    <query name="laneHistoryExistsForLane">
+    <![CDATA[
+    select laneHistory from LaneHistory laneHistory where isDeleted = '0' and lane = ( select lane from Lane lane where id = :laneId and isDeleted = '0' )
+    ]]>
+    </query>
+    
+    
+    <query name="laneHistoryExistsForEmployee">
+    <![CDATA[
+    select laneHistory from LaneHistory laneHistory where isDeleted = '0' and employee = ( select employee from Employee employee where id = :employeeId  and isDeleted = '0')
+    ]]>
+    </query>
+    
+    <query name="softDeleteLaneHistoryByLaneId">
+    <![CDATA[
+    update LaneHistory laneHistory set isDeleted = '1' where lane = ( select lane from Lane lane where id = :laneId  and storeNumber = :storeNumber)
+    ]]>
+    </query>
+    
+    <query name="reEnableLaneInLaneHistory">
+    <![CDATA[
+    update LaneHistory laneHistory set isDeleted = '0' where lane = ( select lane from Lane lane where id = :laneId and storeNumber = :storeNumber)
+    ]]>
+    </query>
+
+    
+</hibernate-mapping>

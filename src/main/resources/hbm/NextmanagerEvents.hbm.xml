@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="true" default-lazy="false" default-access="field">
+  <class name="com.aholdusa.am.audittracking.entity.NextmanagerEvents" table="NEXTMANAGER_EVENTS" dynamic-update="true">
+    <id name="id" column="NEXTMANAGER_EVENTS_ID" type="java.lang.Long">
+         <!-- <generator class="identity" />   -->
+			<generator class="native">
+                        <param name="sequence">SEQ_NEXTMANAGER_EVENTS_ID</param>
+            </generator>
+    </id>
+    <property name="eventType" column="EVENT_TYPE" type="java.lang.String" not-null="true" />
+    <property name="description" column="DESCRIPTION" type="java.lang.String"  />
+    <property name="mgrReason" column="MGR_REASON" type="java.lang.String"  />
+    <property name="empOpNum" column="EMP_OPNUM" type="java.lang.Integer" />
+    <property name="storeNumber" column="STORE_NUMBER" type="java.lang.Integer"  />
+    	<property name="createdBy" column="CREATED_BY" type="java.lang.String" />
+    <property name="createDate" column="CREATED_DATE" type="java.sql.Timestamp" />
+    <property name="lastModifiedBy" column="LAST_MODIFIED_BY" type="java.lang.String" />
+    <property name="lastModifiedDate" column="LAST_MODIFIED_DATE" type="java.sql.Timestamp" />
+    <property name="isDeleted"  type="boolean" >
+			<column name="IS_DELETED" sql-type="char" not-null="true" />
+	 </property>
+	 
+  </class>
+  
+    <query name="findNextManagerEventById"> 
+			<![CDATA[
+			select nextmanagerEvents from NextmanagerEvents nextmanagerEvents 
+			where 
+			nextmanagerEvents.isDeleted = '0'
+			and nextmanagerEvents.id= :nextmanagerEventId
+			]]>
+	</query>
+	
+	
+	 <query name="findByEventTypeAndOperatorNumber">
+			<![CDATA[
+			select nextmanagerEvents from NextmanagerEvents nextmanagerEvents 
+			where nextmanagerEvents.storeNumber = :storeNumber  
+			and nextmanagerEvents.isDeleted = '0'
+			and nextmanagerEvents.eventType= :eventType 
+			and nextmanagerEvents.empOpNum = :empOpNum
+			and trunc(nextmanagerEvents.createDate) = trunc(:createdDate)
+			]]>
+	</query>
+  
+ </hibernate-mapping> 

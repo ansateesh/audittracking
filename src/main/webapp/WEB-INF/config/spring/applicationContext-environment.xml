@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-init-method="init"
+       default-destroy-method="cleanUp"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+       xsi:schemaLocation="http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+                           http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+                           http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+                           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+                           http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.5.xsd">
+  <!-- Scans within the base package of the application for @Components to configure as beans -->
+  <!-- @Controller, @Service, @Configuration, etc. -->
+  <context:component-scan base-package="com.aholdusa.am.audittracking" />
+  
+
+  
+  <!-- Enabling annotation and post processors -->
+  <context:annotation-config />
+  <!-- context:load-time-weaver/-->
+  <!-- Hibernate SessionFactory -->
+  <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+  	<property name="configLocation" value="classpath:hibernate.cfg.xml" />
+  </bean>
+
+  <!-- Transaction manager for a single Hibernate SessionFactory (alternative to JTA) -->
+  <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+    <property name="sessionFactory" ref="sessionFactory"/>
+  </bean>
+  
+  
+  <!-- the transactional advice (i.e. what 'happens'; see the <aop:advisor/> bean below) -->
+  <tx:advice id="transactionAdvice" transaction-manager="transactionManager">
+    <!-- the transactional semantics... -->
+    <tx:attributes>
+    <tx:method name="get*" read-only="true" />
+      <tx:method name="*" timeout="30" propagation="REQUIRED"/>
+      <!-- tx:method name="find*" read-only="true" timeout="30" propagation="SUPPORTS"/>
+      <tx:method name="create*, update*, delete*" timeout="30" propagation="REQUIRED" rollback-for="DataValidationException"/ -->
+    </tx:attributes>
+  </tx:advice>
+  
+  <!-- ensure that the transactional and security advice runs for any execution of an operation defined by the Service interface -->
+  <aop:config>
+    <aop:pointcut id="serviceOperation" expression="execution(* com.aholdusa.am.audittracking.service.AMService+.*(..))"/>
+    <aop:advisor advice-ref="transactionAdvice" pointcut-ref="serviceOperation" order="1"/>
+  </aop:config>
+  
+  <!-- ADMIN View -->
+ 
+     
+</beans>

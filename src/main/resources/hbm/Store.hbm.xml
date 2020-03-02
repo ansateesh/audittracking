@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="true" default-lazy="false" default-access="field">
+  <class name="com.aholdusa.am.audittracking.entity.Store" table="STORES" dynamic-update="true">
+    <id name="id" column="STORES_ID" type="java.lang.Long">
+      <!-- <generator class="identity" />   -->
+      <generator class="native">
+                        <param name="sequence">seq_stores_id</param>
+                </generator>
+    </id>
+    
+    <property name="number" column="STORE_NUMBER" type="java.lang.Integer" not-null="true" />
+    <property name="network" column="NETWORK" type="java.lang.String" not-null="true" />
+    <property name="startIp" column="START_IP" type="java.lang.Integer" not-null="true" />
+    <property name="endIp" column="END_IP" type="java.lang.Integer" not-null="true" />
+    <property name="ispIp" column="ISP_IP" type="java.lang.String" not-null="true" />
+    <property name="ispPort" column="ISP_PORT" type="java.lang.String" not-null="true" />
+    <property name="protocol" column="PROTOCOL" type="java.lang.String" not-null="true" />
+    <property name="division" column="DIVISION" type="java.lang.String" not-null="true" />
+    <property name="version" column="VERSION" type="java.lang.Long" not-null="true" />
+    <property name="createdBy" column="CREATED_BY" type="java.lang.String" />
+    <property name="createDate" column="CREATED_DATE" type="java.sql.Timestamp" />
+    <property name="lastModifiedBy" column="LAST_MODIFIED_BY" type="java.lang.String" />
+    <property name="lastModifiedDate" column="LAST_MODIFIED_DATE" type="java.sql.Timestamp" />
+    <property name="nextManagerUrl" column="NEXTMANAGER_URL" type="java.lang.String"/>
+    <property name="defaultDrawer" type="java.lang.Double">
+			<column name="DEFAULT_DRAWER" sql-type="number" />
+		</property>
+    <property name="isDeleted"  type="boolean" >
+			<column name="IS_DELETED" sql-type="char" not-null="true" />
+		</property>
+  </class>
+  <query name="getStoreByNumber" > 
+  <![CDATA[select store from Store store where store.number = :storeNumber and store.isDeleted = '0']]>
+  </query>
+ <query name="getStoreByIp" > 
+  <![CDATA[select store from Store store where store.network = :network and store.isDeleted = '0']]>
+  </query>
+</hibernate-mapping>

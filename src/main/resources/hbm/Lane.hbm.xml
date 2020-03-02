@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="true" default-lazy="false"
+	default-access="field">
+	<class name="com.aholdusa.am.audittracking.entity.Lane" table="LANES"
+		dynamic-update="true">
+		<id name="id" column="LANES_ID" type="java.lang.Long">
+			<!-- <generator class="identity" /> -->
+			<generator class="native">
+				<param name="sequence">seq_lanes_id</param>
+			</generator>
+		</id>
+
+		<property name="number" column="LANE_NUMBER" type="java.lang.Integer"
+			not-null="true" />
+		<property name="storeNumber" column="STORE_NUMBER" type="java.lang.Integer"
+			not-null="true" />
+		<property name="active" column="ACTIVE" type="yes_no" />
+		<property name="version" column="VERSION" type="java.lang.Long"
+			not-null="true" />
+		<property name="createdBy" column="CREATED_BY" type="java.lang.String" />
+		<property name="createDate" column="CREATED_DATE" type="java.sql.Timestamp" />
+		<property name="lastModifiedBy" column="LAST_MODIFIED_BY"
+			type="java.lang.String" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			type="java.sql.Timestamp" />
+		<property name="isDeleted" type="boolean">
+			<column name="IS_DELETED" sql-type="char" not-null="true" />
+		</property>
+		<property name="laneType" column="LANE_TYPE" type="java.lang.String" />
+		<property name="recordStatus" column="RECORD_STATUS" type="java.lang.Integer" />
+		<property name="lockedBy" column="LOCKED_BY" type="java.lang.String" />
+		<!-- 
+		<property name="overShortAmount" column="OVER_SHORT_AMOUNT"
+			type="java.lang.Float" />
+		 -->	
+		 <property name="overShortAmount" type="java.lang.Double">
+			<column name="OVER_SHORT_AMOUNT" sql-type="number" />
+		</property>	
+		<!-- <property name="reportDeleted" type="boolean">
+			<column name="REPORT_DELETED" sql-type="char" not-null="true" />
+		</property> -->
+		<!-- <many-to-one name="store" class="com.aholdusa.am.audittracking.entity.Store" 
+			fetch="select"> <column name="STORE_NUMBER" /> </many-to-one> -->
+
+		<!-- <set name="laneHistory" table="LANE_HISTORY" lazy="true" fetch="select"> 
+			<key> <column name="LANE_ID" not-null="true" /> </key> <one-to-many class="com.aholdusa.am.audittracking.entity.LaneHistory" 
+			/> </set> -->
+	</class>
+	<query name="findLaneByNumber">
+	<![CDATA[
+		select lane from Lane lane where number = :laneNumber and storeNumber = :storeNumber and isDeleted = '0'
+	]]>
+	</query>
+
+	<query name="findActiveLaneByNumber">
+	<![CDATA[
+		select lane from Lane lane where number = :laneNumber and storeNumber = :storeNumber and isDeleted = '0'
+	]]>
+	</query>
+
+	<query name="findLaneByStoreNumber">
+	<![CDATA[
+		select lane from Lane lane where storeNumber = :storeNumber and isDeleted = '0'
+	]]>
+	</query>
+	<query name="getCleanLanes">
+	<![CDATA[
+		select lane from Lane lane where 
+		not exists (
+			select 1 	from LaneHistory laneHistory 
+			where		laneHistory.endTime is  null
+			and         (DATE(current_date) = DATE(laneHistory.laneAssignmentDate))  
+			and 		laneHistory.lane = lane
+			and			laneHistory.isDeleted = '0'
+			and 		not exists ( 
+				select 1 from Audit audit 
+				where 	audit.employee = laneHistory.employee
+				and		audit.lane = lane
+				and		(DATE (current_date)  = DATE(audit.date))  
+				and		audit.isDeleted = '0'
+				and		audit.position = 1
+				
+			)
+    	)
+		and storeNumber = :storeNumber
+		and	isDeleted = '0'
+	]]>
+	</query>
+
+  <query name="getAuditLanes">
+	<![CDATA[
+		select lane from Lane lane where 
+		not exists (
+			select 1 	from LaneHistory laneHistory 
+			where		laneHistory.endTime is not null
+			and         (DATE(current_date) = DATE(laneHistory.laneAssignmentDate))  
+			and 		laneHistory.lane = lane
+			and			laneHistory.isDeleted = '0'
+			and 		not exists ( 
+				select 1 from Audit audit 
+				where 	audit.employee = laneHistory.employee
+				and		audit.lane = lane
+				and		(DATE (current_date)  = DATE(audit.date))  
+				and		audit.isDeleted = '0'
+				and		audit.position = 1
+				and     laneHistory.startTime < audit.startTime
+				 
+				
+			)
+    	)
+		and storeNumber = :storeNumber
+		and	isDeleted = '0'
+	]]>
+	</query>
+	
+	<query name="findLaneByIdAndStoreNumber">
+	<![CDATA[
+		select lane from Lane lane where id = :id and storeNumber = :storeNumber and isDeleted = '0'
+	]]>
+	</query>
+	
+	<query name="findLaneByNumberAndStoreNumber">
+	<![CDATA[
+		select lane from Lane lane where number = :laneNumber and storeNumber = :storeNumber
+	]]>
+	</query>
+
+
+
+</hibernate-mapping>

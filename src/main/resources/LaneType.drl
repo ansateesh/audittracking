@@ -1,0 +1,289 @@
+package com.aholdusa.rules
+
+import com.aholdusa.am.audittracking.entity.LaneType
+
+dialect "mvel"
+
+/*
+ * @author iaguilar and @robert
+ * Rules for getting Lane Type By Lane Number and Division
+ */
+
+rule "Lane is Front End"
+    when
+        $laneType : LaneType(28>=laneNumber && laneNumber>=1)
+    then
+         $laneType.setType( "Lane" );
+end
+
+rule "Lane is SCO Attendant"
+    when
+        $laneType : LaneType(30>=laneNumber && laneNumber>=29)
+    then
+         $laneType.setType( "SCO Attendant" );
+end
+
+rule "Lane is Service Center"
+    when
+        $laneType : LaneType(35>=laneNumber && laneNumber>=31)
+    then
+         $laneType.setType( "Service Center" );
+end
+
+
+rule "Lane is Dry Cleaner"
+    when
+        $laneType : LaneType(37>=laneNumber && laneNumber>=36)
+    then
+         $laneType.setType( "Dry Cleaner" );
+end
+
+rule "Lane is Corp Coffee 1"
+    when
+        $laneType : LaneType(39>=laneNumber && laneNumber>=38)
+    then
+         $laneType.setType( "Corp Coffee 1" );
+end
+
+rule "Lane is Corp Coffee 2"
+    when
+        $laneType : LaneType(41>=laneNumber && laneNumber>=40)
+    then
+         $laneType.setType( "Corp Coffee 2" );
+end
+
+rule "Lane is Dunkin Donuts"
+    when
+        $laneType : LaneType(43>=laneNumber && laneNumber>=42)
+    then
+         $laneType.setType( "Dunkin Donuts" );
+end
+
+rule "Lane is Starbucks"
+    when
+        $laneType : LaneType(45>=laneNumber && laneNumber>=44)
+    then
+         $laneType.setType( "Starbucks" );
+end
+
+rule "Lane is Bakery BakeShop"
+    when
+        $laneType : LaneType(47>=laneNumber && laneNumber>=46)
+    then
+         $laneType.setType( "Bakery BakeShop" );
+end
+
+rule "Lane is Deli"
+    when
+        $laneType : LaneType(49>=laneNumber && laneNumber>=48)
+    then
+         $laneType.setType( "Deli" );
+end
+
+rule "Lane is Floral"
+    when
+        $laneType : LaneType(51>=laneNumber && laneNumber>=50)
+    then
+         $laneType.setType( "Floral" );
+end
+
+rule "Lane is Chinese/Asian"
+    when
+        $laneType : LaneType(53>=laneNumber && laneNumber>=52)
+    then
+         $laneType.setType( "Chinese/Asian" );
+end
+
+rule "Lane is Market Place Cafe"
+    when
+        $laneType : LaneType(57>=laneNumber && laneNumber>=54)
+    then
+         $laneType.setType( "Market Place Cafe" );
+end
+
+rule "Lane is Bagel Franchise"
+    when
+        $laneType : LaneType(59>=laneNumber && laneNumber>=58)
+    then
+         $laneType.setType( "Franchise" );
+end
+
+rule "Lane is Grocery Valet"
+    when
+        $laneType : LaneType(61>=laneNumber && laneNumber>=60)
+    then
+         $laneType.setType( "Grocery Valet" );
+end
+
+rule "Lane is Photo"
+    when
+        $laneType : LaneType(63>=laneNumber && laneNumber>=62)
+    then
+         $laneType.setType( "Photo" );
+end
+
+rule "Lane is Comm. Room"
+    when
+        $laneType : LaneType(65>=laneNumber && laneNumber>=64)
+    then
+         $laneType.setType( "Comm. Room" );
+end
+
+rule "Lane is Great Ent Service Center"
+    when
+        $laneType : LaneType(67>=laneNumber && laneNumber>=66)
+    then
+         $laneType.setType( "Great Ent Service Center" );
+end
+
+rule "Lane is Mobile Check Stands"
+    when
+        $laneType : LaneType(72>=laneNumber && laneNumber>=68)
+    then
+         $laneType.setType( "Mobile Check Stands" );
+end
+
+rule "Lane is Pharmacy"
+    when
+        $laneType : LaneType(89>=laneNumber && laneNumber>=80)
+    then
+         $laneType.setType( "Pharmacy" );
+end
+
+rule "Lane is Inside Fuel"
+    when
+        $laneType : LaneType(91>=laneNumber && laneNumber>=90)
+    then
+         $laneType.setType( "Inside Fuel" );
+end
+
+rule "Lane is C-Store Inside"
+    when
+        $laneType : LaneType(97>=laneNumber && laneNumber>=92)
+    then
+         $laneType.setType( "C-Store Inside" );
+end
+
+rule "Lane is Reserved Chng/Lott Drawer"
+    when
+        $laneType : LaneType(101>=laneNumber && laneNumber>=100)
+    then
+         $laneType.setType( "Reserved Chng/Lott Drawer" );
+end
+
+rule "Lane is  Web & Kiosk Replay"
+    when
+        $laneType : LaneType(laneNumber==320)
+    then
+         $laneType.setType( "Web & Kiosk Replay" );
+         $laneType.setSession("Virtual");
+end
+/*
+* Updated IBM SCO Lane Numbers
+*/
+/*
+*@Deprecated IBM SCO lane Numbers : 401 to 425
+*  
+* $laneType : LaneType(425>=laneNumber && laneNumber>=401)
+*/
+rule "Lane is Toshiba SCO"
+    when
+        $laneType : LaneType(430>=laneNumber && laneNumber>=401)
+    then
+         $laneType.setType( "Toshiba SCO" );
+         $laneType.setSession("Virtual");
+end
+
+/*
+*@Deprecated IBM SCO Cashless lane Numbers : 401 to 425
+rule "Lane is IBM SCO Cashless"
+    when
+        $laneType : LaneType(430>=laneNumber && laneNumber>=426)
+    then
+         $laneType.setType( "IBM SCO Cashless" );
+         $laneType.setSession("Virtual");
+end
+*/
+
+rule "Lane is Fujitsu SCO"
+    when
+        $laneType : LaneType(530>=laneNumber && laneNumber>=501)
+    then
+         $laneType.setType( "Fujitsu SCO" );
+         $laneType.setSession("Virtual");
+end
+
+/*
+*@Deprecated Fujitsu SCO Cashless lane Numbers : 526 to 530
+rule "Lane is Fujitsu SCO Cashless"
+    when
+        $laneType : LaneType(530>=laneNumber && laneNumber>=526)
+    then
+         $laneType.setType( "Fujitsu SCO" );
+         $laneType.setSession("Virtual");
+end
+*/
+
+rule "Lane is ScanIt Mobile"
+    when
+        $laneType : LaneType(603>=laneNumber && laneNumber>=531)
+    then
+         $laneType.setType( "ScanIt Mobile" );
+         $laneType.setSession("Virtual");
+end
+
+rule "Lane is ScanIt Mobile Reserved"
+    when
+        $laneType : LaneType(699>=laneNumber && laneNumber>=604)
+    then
+         $laneType.setType( "ScanIt Mobile Reserved" );
+         $laneType.setSession("Virtual");
+end
+
+rule "Lane is Outside Fuel (SIF)"
+    when
+        $laneType : LaneType(750>=laneNumber && laneNumber>=701)
+    then
+         $laneType.setType( "Outside Fuel (SIF)" );
+         $laneType.setSession("Virtual");
+end
+
+/*
+* Self Checkout Exceptions
+*
+*/
+
+rule "Lane is Self Checkout -  87226 1-7 (day of the week)"
+    when
+        $laneType : LaneType(872267>=laneNumber && laneNumber>=872261)
+    then
+         $laneType.setType( "Self Checkout" );
+end
+
+rule "Lane is Self Checkout - 47226 1-7 (day of the week)"
+    when
+        $laneType : LaneType(472267>=laneNumber && laneNumber>=472261)
+    then
+         $laneType.setType( "Self Checkout" );
+end
+
+rule "Lane is Self Checkout - 27226 1-7 (day of the week)"
+    when
+        $laneType : LaneType(272267>=laneNumber && laneNumber>=272261)
+    then
+         $laneType.setType( "Self Checkout" );
+end
+
+rule "Lane is Self Checkout - Legacy: 87226/47226/27226 (no day of the week)"
+    when
+        $laneType : LaneType(laneNumber==87226 || laneNumber==47226 || laneNumber==27226 )
+    then
+         $laneType.setType( "Self Checkout" );
+end
+
+rule "Lane is Great Entertaining Operator "
+    when
+        $laneType : LaneType(laneNumber==320)
+    then
+         $laneType.setType( " Great Entertaining Operator" );
+end

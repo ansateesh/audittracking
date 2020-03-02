@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="true" default-lazy="false" default-access="field">
+  <class name="com.aholdusa.am.audittracking.entity.ActivityLogs" table="ACTIVITY_LOGS" dynamic-update="true">
+    <id name="id" column="ACTIVITY_LOGS_ID" type="java.lang.Long">
+        <!--  <generator class="IDENTITY" />   -->
+			<generator class="native">
+                        <param name="sequence">seq_activity_logs_id</param>
+                </generator>
+    </id>
+    
+     
+    
+    <property name="activityType" column="ACTIVITY_TYPE" type="java.lang.String" not-null="true" />
+    <property name="mgrSignature" type="java.lang.String" >
+    	<column name="MGR_SIGNATURE" sql-type="clob" not-null="true" />
+	</property>	
+	
+    <property name="mgrReason" column="MGR_REASON" type="java.lang.String"  />
+    <property name="mgrOpNum" column="MGR_OPNUM" type="java.lang.Integer"  />
+    <property name="empOpNum" column="EMP_OPNUM" type="java.lang.Integer" />
+    <property name="storeNumber" column="STORE_NUMBER" type="java.lang.Integer"  />
+    <property name="objectType" column="OBJECT_TYPE" type="java.lang.String"/>
+   	<property name="createdBy" column="CREATED_BY" type="java.lang.String" />
+    <property name="createDate" column="CREATED_DATE" type="java.sql.Timestamp" />
+    <property name="lastModifiedBy" column="LAST_MODIFIED_BY" type="java.lang.String" />
+    <property name="lastModifiedDate" column="LAST_MODIFIED_DATE" type="java.sql.Timestamp" />
+    
+    <property name="comments" type="java.lang.String" >
+    	<column name="COMMENTS" sql-type="clob" not-null="true" />
+	</property>	
+    <property name="isDeleted"  type="boolean" >
+			<column name="IS_DELETED" sql-type="char" not-null="true" />
+	</property>
+		
+    <property name="version" column="VERSION" type="java.lang.Long" />
+  
+  </class>
+  
+  <!-- Audit Report by  Manager Operator Number , Begin and End Date  -->
+	<query name="findActivityByManagerBeginEndDate">
+			<![CDATA[
+			select activityLogs from ActivityLogs activityLogs 
+			where activityLogs.storeNumber = :storeNumber  
+			and activityLogs.isDeleted = '0'
+			and activityLogs.mgrOpNum = :managerOperatorNumber 
+			and activityLogs.objectType =  :objectType
+			and activityType= :activityType
+			and activityLogs.createDate >= :beginDate 
+			and activityLogs.createDate <= :endDate
+			]]>
+	</query>
+	<!-- Audit Report by Begin and End Date  -->
+	<query name="findActivityByBeginEndDate">
+			<![CDATA[
+			select activityLogs from ActivityLogs activityLogs 
+			where activityLogs.storeNumber = :storeNumber  
+			and activityLogs.isDeleted = '0'
+			and activityLogs.objectType =  :objectType
+			and activityType= :activityType 
+			and activityLogs.createDate >= :beginDate 
+			and activityLogs.createDate <= :endDate
+			]]>
+	</query>
+ 
+  <!-- Audit Report by Begin and End Date  -->
+	<query name="findActivityOperatorNumberByBeginEndDate">
+			<![CDATA[
+			select activityLogs from ActivityLogs activityLogs 
+			where activityLogs.storeNumber = :storeNumber  
+			and activityLogs.isDeleted = '0'
+			and activityLogs.objectType =  :objectType
+			and activityLogs.empOpNum= :operatorNumber
+			and activityType= :activityType 
+			and activityLogs.createDate >= :beginDate 
+			and activityLogs.createDate <= :endDate
+			]]>
+	</query> 
+ 
+    <query name="findActivityByActivityType">
+			<![CDATA[
+			select activityLogs from ActivityLogs activityLogs 
+			where activityLogs.storeNumber = :storeNumber  
+			and activityLogs.isDeleted = '0'
+			and activityType= :activityType 
+			and trunc(activityLogs.createDate) = trunc(:cDate)
+			]]>
+	</query>
+ 
+    <query name="findActivityTillContentsByOpManager"> 
+			<![CDATA[
+			select activityLogs from ActivityLogs activityLogs 
+			where 
+			activityLogs.storeNumber = :storeNumber  
+			and activityLogs.activityType= :activityType 
+			and trunc(activityLogs.createDate) = trunc(:createDate)
+			and activityLogs.isDeleted = '0'
+			and activityLogs.mgrOpNum= :mgrOpNum
+			order by activityLogs.createDate desc
+			]]>
+	</query>
+	
+	  <query name="findActivityById"> 
+			<![CDATA[
+			select activityLogs from ActivityLogs activityLogs 
+			where 
+			activityLogs.isDeleted = '0'
+			and activityLogs.id= :activityId
+			]]>
+	</query>
+ 
+   <query name="findByActivityTypeAndOperatorNumber">
+			<![CDATA[
+			select activityLogs from ActivityLogs activityLogs 
+			where activityLogs.storeNumber = :storeNumber  
+			and activityLogs.isDeleted = '0'
+			and activityLogs.activityType= :activityType 
+			and activityLogs.empOpNum = :empOpNum
+			and trunc(activityLogs.createDate) = trunc(:createdDate)
+			]]>
+	</query>
+	
+	
+</hibernate-mapping>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="true" default-lazy="false" default-access="field">
+  <class name="com.aholdusa.am.audittracking.entity.OverShortReport" table="OVER_SHORT_REPORTS" dynamic-update="true">
+    <id name="id" column="OVER_SHORT_REPORTS_ID" type="java.lang.Long">
+      <!-- <generator class="identity" />   -->
+      <generator class="native">
+            <param name="sequence">SEQ_OVER_SHORT_REPORTS_ID</param>
+      </generator>
+    </id>
+    
+    <property name="laneId" column="LANE_ID" type="java.lang.Long"/>
+    <property name="storeNumber" column="STORE_NUMBER" type="java.lang.Long"/>
+    <property name="overShortAmount" type="java.lang.Double">
+			<column name="OVER_SHORT_AMOUNT" sql-type="number" />
+    </property>	
+    <property name="reportDate" column="REPORT_DATE" type="java.sql.Timestamp" />
+     <property name="failover"  type="boolean" >
+			<column name="FAILOVER" sql-type="char"  />
+    </property>  
+     <property name="reportDeleted"  type="boolean" >
+			<column name="REPORT_DELETED" sql-type="char"  />
+    </property>
+    <property name="version" column="VERSION" type="java.lang.Long" />
+   	<property name="createdBy" column="CREATED_BY" type="java.lang.String" />
+    <property name="createDate" column="CREATED_DATE" type="java.sql.Timestamp" />
+    <property name="lastModifiedBy" column="LAST_MODIFIED_BY" type="java.lang.String" />
+    <property name="lastModifiedDate" column="last_modified_date" type="java.sql.Timestamp" />
+    <property name="isDeleted"  type="boolean" >
+			<column name="IS_DELETED" sql-type="char" not-null="true" />
+    </property>
+  
+  </class>
+  
+  <query name="findOverShortReportByStoreNumber">
+              
+	<![CDATA[
+		Select overShortReport 
+		From OverShortReport overShortReport 
+		Where  storeNumber = :storeNumber 
+		       and isDeleted = '0'
+		order by createDate DESC       
+	]]>
+	</query>
+	
+	<query name="findOverShortReportByStoreNumberLaneId">
+              
+	<![CDATA[
+		Select overShortReport 
+		From OverShortReport overShortReport 
+		Where  storeNumber = :storeNumber 
+		       and laneId = laneId
+		       and reportDate = :reportDate 
+		       and isDeleted = '0'
+		       order by createDate DESC 
+	]]>
+	</query>
+  
+  <query name="findOverShortReportById">
+   <![CDATA[
+		Select overShortReport 
+		From OverShortReport overShortReport 
+		Where  id=:id 
+		       and isDeleted = '0'
+	]]>
+	</query>
+    
+  
+</hibernate-mapping>

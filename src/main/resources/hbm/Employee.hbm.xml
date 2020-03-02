@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="true" default-lazy="false"
+	default-access="field">
+	<class name="com.aholdusa.am.audittracking.entity.Employee"
+		table="EMPLOYEES" dynamic-update="true">
+		<id name="id" column="EMPLOYEES_ID" type="java.lang.Long">
+			<!-- <generator class="identity" />   -->
+			<generator class="native">
+                        <param name="sequence">seq_employees_id</param>
+                </generator>
+		</id>
+
+		<property name="operatorNumber" column="OPERATOR_NO" type="java.lang.Integer"
+			not-null="true" />
+		<property name="storeNumber" column="STORE_NUMBER" type="java.lang.Integer"
+			not-null="true" />
+		<property name="firstName" column="FIRST_NAME" type="java.lang.String"
+			not-null="true" />
+		<property name="lastName" column="LAST_NAME" type="java.lang.String"
+			not-null="true" />
+		<property name="requiresAudit" column="REQUIRES_AUDIT" type="yes_no" />
+		<property name="active" column="ACTIVE" type="yes_no" />
+		<property name="overridden" column="OVERRIDDEN" type="yes_no" />
+		<property name="version" column="VERSION" type="java.lang.Long"
+			not-null="true" />
+		<property name="createdBy" column="CREATED_BY" type="java.lang.String" />
+		<property name="createDate" column="CREATED_DATE" type="java.sql.Timestamp" />
+		<property name="lastModifiedBy" column="LAST_MODIFIED_BY"
+			type="java.lang.String" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			type="java.sql.Timestamp" />
+		<property name="isDeleted"  type="boolean" >
+			<column name="IS_DELETED" sql-type="char" not-null="true" />
+		</property>
+		<property name="recordStatus" column="RECORD_STATUS" type="java.lang.Integer" />
+		<property name="lockedBy" column="LOCKED_BY" type="java.lang.String" />
+		<!-- OPERATOR_NAME -->
+			<property name="operatorName" column="OPERATOR_NAME" type="java.lang.String"/>
+			 
+			<property name="markedForAuditTime" column="MARKED_AUDIT_DATE" type="java.sql.Timestamp" />
+	          
+	</class>
+	
+	<query name="findEmployeeByOperatorNumber">
+  		<![CDATA[select employee from Employee employee where isDeleted = '0' and employee.operatorNumber = :operatorNumber and employee.storeNumber = :storeNumber]]>
+	</query>
+	<query name="partialFindEmployeeByOperatorNumber">
+  	<![CDATA[select employee from Employee employee where isDeleted = '0' and substring(employee.operatorNumber, 1, length(:operatorNumber)) = :operatorNumber and employee.storeNumber = :storeNumber]]>
+	</query>
+	<query name="partialFindEmployeeByFirstName">
+  	<![CDATA[select employee from Employee employee where isDeleted = '0' and substring(employee.firstName, 1, length(:firstName)) = :firstName and employee.storeNumber = :storeNumber]]>
+	</query>
+	<query name="partialFindEmployeeByLastName">
+  	<![CDATA[select employee from Employee employee where isDeleted = '0' and substring(employee.lastName, 1, length(:lastName)) = :lastName and employee.storeNumber = :storeNumber]]>
+	</query>
+	<query name="partialFindEmployeeByName">
+  	<![CDATA[select employee from Employee employee where isDeleted = '0' and ( substring(employee.firstName, 1, length(:firstName)) = :firstName or substring(employee.lastName, 1, length(:lastName)) = :lastName ) and employee.storeNumber = :storeNumber]]>
+	</query>
+	<query name="findEmployeeByName">
+  	<![CDATA[select employee from Employee employee where  isDeleted = '0' and employee.firstName = :firstName and employee.lastName = :lastName  and employee.storeNumber = :storeNumber]]>
+	</query>
+	<query name="findEmployeeByFirstName">
+  	<![CDATA[select employee from Employee employee where  isDeleted = '0' and employee.firstName = :firstName and employee.storeNumber = :storeNumber]]>
+	</query>
+	<query name="findEmployeeByLastName">
+  	<![CDATA[select employee from Employee employee where  isDeleted = '0' and employee.lastName = :lastName  and employee.storeNumber = :storeNumber]]>
+	</query>
+   <query name="deleteEmployeeById">
+  	<![CDATA[update Employee employee set isDeleted = '1'  where  employee.operatorNumber = :operatorNumber and employee.storeNumber = :storeNumber]]>
+	</query>
+
+</hibernate-mapping>

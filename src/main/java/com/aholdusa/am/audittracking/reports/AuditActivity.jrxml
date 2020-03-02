@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Employee Audit" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="8d62e924-0efc-4fea-827e-02e673bcb1e0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<subDataset name="dataset1" uuid="1745d418-15ce-477f-9e0a-47bc57fb7d94"/>
+	<subDataset name="dataset2" uuid="02d48bfd-a255-42f5-841d-61b98fc487c3"/>
+	<parameter name="STORE_PARAM" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="START_DATE" class="java.util.Date">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>
+	</parameter>
+	<parameter name="MONTH_PARAM" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="REQUIRES_PARAM" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[3]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ACTIVE_PARAM" class="java.lang.Boolean">
+		<defaultValueExpression><![CDATA['Y']]></defaultValueExpression>
+	</parameter>
+	<parameter name="OPNUM_PARAM" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="LANENUMBER_PARAM" class="java.lang.Integer"/>
+	<parameter name="LANETYPE_PARAM" class="java.lang.String"/>
+	<parameter name="NAME_PARAM" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="END_DATE" class="java.util.Date">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>
+	</parameter>
+	<queryString language="hql">
+		<![CDATA[from Audit]]>
+	</queryString>
+	<field name="manager.firstName" class="java.lang.String">
+		<fieldDescription><![CDATA[manager..firstName]]></fieldDescription>
+	</field>
+	<field name="manager.lastName" class="java.lang.String">
+		<fieldDescription><![CDATA[manager.lastName]]></fieldDescription>
+	</field>
+	<field name="activityLog.storeNumber" class="java.lang.Integer">
+		<fieldDescription><![CDATA[activityLog.storeNumber]]></fieldDescription>
+	</field>
+	<field name="activityLog.createDate" class="java.lang.String">
+		<fieldDescription><![CDATA[activityLog.createDate]]></fieldDescription>
+	</field>
+	<field name="activityLog.activityType" class="java.lang.String">
+		<fieldDescription><![CDATA[activityLog.activityType]]></fieldDescription>
+	</field>
+	<field name="employee.firstName" class="java.lang.String">
+		<fieldDescription><![CDATA[employee.firstName]]></fieldDescription>
+	</field>
+	<field name="employee.lastName" class="java.lang.String">
+		<fieldDescription><![CDATA[employee.lastName]]></fieldDescription>
+	</field>
+	<field name="activityLog.mgrReason" class="java.lang.String">
+		<fieldDescription><![CDATA[activityLog.mgrReason]]></fieldDescription>
+	</field>
+	<group name="Store">
+		<groupExpression><![CDATA[]]></groupExpression>
+	</group>
+	<group name="Date" keepTogether="true">
+		<groupExpression><![CDATA[]]></groupExpression>
+	</group>
+	<group name="Lane" keepTogether="true">
+		<groupExpression><![CDATA[]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="20">
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="0" width="572" height="20" forecolor="#FFFFFF" backcolor="#000000" uuid="82961dcb-4659-4aaa-ba98-1d6e6e788aed"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Marked/UnMarked Employee For Audit Report]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="20">
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="513" y="0" width="59" height="20" isPrintInFirstWholeBand="true" printWhenGroupChanges="Store" uuid="ba1cfa43-7d79-439d-bf74-a165e049eef4"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Store: "+$F{activityLog.storeNumber}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="149" y="0" width="111" height="20" uuid="5f5d7e1c-b648-47f2-99ec-42795bca2770"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Activity Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="74" y="0" width="75" height="20" uuid="4d5d2f51-9f26-4b02-bfbc-4fcdde79fac3"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Employee]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="0" width="73" height="20" uuid="bbc07a24-ee41-4277-8184-d3b872992a96"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Manager]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="293" y="0" width="220" height="20" uuid="a9096e26-62b3-4cf3-8ee8-175a9e23bac2"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Reason]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="260" y="0" width="33" height="20" uuid="a5913307-c23f-4e78-89e9-0f8ce77e1d32"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22">
+			<textField>
+				<reportElement x="74" y="0" width="75" height="20" uuid="9a90812e-5381-451e-a4d8-acd7b8f79ede"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{employee.firstName}+" "+$F{employee.lastName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="0" width="73" height="20" uuid="db41e035-167d-44bf-ad46-f47985d4e48d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{manager.firstName}+" "+$F{manager.lastName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="149" y="0" width="111" height="20" uuid="c1a2421d-1840-408b-9b49-5af962ecf9a3"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{activityLog.activityType}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yy">
+				<reportElement x="513" y="0" width="59" height="20" uuid="c471e40f-6cfc-4716-9e44-325e55f166c0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{activityLog.createDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="293" y="0" width="220" height="20" uuid="01cbd446-5885-4ec4-903d-747f1912e4ce"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="32" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="12" width="283" height="20" uuid="e5f5f207-4551-4e28-b5f5-2c4f76bc17a5"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="453" y="12" width="80" height="20" uuid="fdcdf9ef-03e2-4a7b-88a1-daebd7752f2b"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="533" y="12" width="40" height="20" uuid="a440bd3d-47cd-4cd6-95d0-a11fb6f9ee07"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

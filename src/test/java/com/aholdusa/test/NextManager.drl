@@ -1,0 +1,18 @@
+package com.aholdusa.rules
+
+import com.aholdusa.am.audittracking.entity.ToltFailover
+
+dialect "mvel"
+
+/*
+ * @author iaguilar and @brian
+ * Rules for handling tolt failover
+ */
+
+rule "Time difference greater than 10s is failover"
+    when
+        $toltFailover : ToltFailover(recievedDifference>10000)
+    then
+        $toltFailover.setFailover( true );
+end
+

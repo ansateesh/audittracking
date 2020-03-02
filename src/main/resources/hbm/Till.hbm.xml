@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="true" default-lazy="false" default-access="field">
+  <class name="com.aholdusa.am.audittracking.entity.Till" table="TILLS" dynamic-update="true">
+    <id name="id" column="TILLS_ID" type="java.lang.Long">
+      <!-- <generator class="identity" />   -->
+      <generator class="native">
+            <param name="sequence">seq_tills_id</param>
+      </generator>
+    </id>
+    
+    <property name="storeNumber" column="STORE_NUMBER" type="java.lang.Integer" not-null="true" />
+    <property name="date" column="TILL_DATE" type="java.sql.Timestamp" />
+    <property name="pennies" column="PENNIES" type="java.math.BigDecimal"  />
+    <property name="nickels" column="NICKELS" type="java.math.BigDecimal"  />
+    <property name="dimes" column="DIMES" type="java.math.BigDecimal" />
+    <property name="quarters" column="QUARTERS" type="java.math.BigDecimal"  />
+    <property name="ones" column="ONES" type="java.math.BigDecimal"  />
+    <property name="fives" column="FIVES" type="java.math.BigDecimal"  />
+    <property name="tens" column="TENS" type="java.math.BigDecimal"  />
+    <property name="twenties" column="TWENTIES" type="java.math.BigDecimal" />
+    <property name="fifties" column="FIFTIES" type="java.math.BigDecimal" />
+    <property name="hundreds" column="HUNDREDS" type="java.math.BigDecimal" />
+    <property name="loans" column="LOANS" type="java.math.BigDecimal" />
+    <property name="total" column="TOTAL" type="java.math.BigDecimal" />
+   	<property name="stamps" column="STAMPS" type="java.math.BigDecimal" />
+   	<property name="mgrSignature"  type="java.lang.String" >
+      <column name = "MGR_SIGNATURE" sql-type = "clob" not-null="true" />
+    </property>
+   	<property name="version" column="VERSION" type="java.lang.Long" />
+   	<property name="createdBy" column="CREATED_BY" type="java.lang.String" />
+    <property name="createDate" column="CREATED_DATE" type="java.sql.Timestamp" />
+    <property name="lastModifiedBy" column="LAST_MODIFIED_BY" type="java.lang.String" />
+    <property name="lastModifiedDate" column="LAST_MODIFIED_DATE" type="java.sql.Timestamp" />
+    <property name="isDeleted"  type="boolean" >
+			<column name="IS_DELETED" sql-type="char" not-null="true" />
+		</property>
+  </class>
+  
+  <query name="getDrawer" >
+	<![CDATA[
+		select till from Till till where 
+		            storeNumber = :storeNumber
+		     and	isDeleted = '0'
+		 	 and    (trunc(createDate) = trunc(:date))  
+		 
+		
+	]]>
+	</query>
+
+</hibernate-mapping>

@@ -1,0 +1,369 @@
+<html>
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width , initial-scale=1.0">
+        <title></title>
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="panelUpdated.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="panelCSS.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" media="screen">
+    </head>
+    <script type="text/javascript">
+        // Report Parameter Values //
+
+        // required values
+        var storeNum;
+
+        // defaulted values
+        var startDate;
+        var endDate;
+        var isActive;
+        var requiredAudit;
+        
+        // option values
+        var opNum;
+        var laneNum;
+        var laneType;
+
+
+        // Primary Functions //
+
+        /*
+        *   sets values need for report's parameters
+        *   called when user inputs data in a field
+        */
+        function setValues() {
+            // check if form is valid
+            if(storeNumBlank()){
+                return;
+            }
+
+            // set defaulted values to user input (checkboxes excluded)
+            startDate = document.getElementById("startDate").value;
+            endDate = document.getElementById("endDate").value;
+
+            // validate defaulted values
+            if(startDate == ''){
+                startDate = getCurrentDate(); // default
+                document.getElementById("startDate").value = startDate;
+            }
+            if(endDate == ''){
+                endDate = getCurrentDate(); // default
+                document.getElementById("endDate").value = endDate;
+            }
+            /*if(!(endDate > 1)){
+                endDate = 1; // default
+                document.getElementById("endDate").value = endDate;
+            }*/
+            if(!document.getElementById("isActive").checked){
+                isActive = 'N';
+            } else {
+                isActive = 'Y'; // default
+            }
+            if(document.getElementById("requiredAudit").checked){
+                requiredAudit = 4;
+            } else {
+                requiredAudit = 3; // default
+            }
+
+            document.getElementById("isActive").value = isActive;
+            document.getElementById("requiredAudit").value = requiredAudit;
+
+            // set optional values to respective user input
+            opNum = document.getElementById("opNum").value;
+            laneNum = document.getElementById("laneNum").value;
+            laneType = document.getElementById("laneType").value;
+
+            // validate optional values
+            if(isNaN(opNum)){
+                opNum = '';
+                document.getElementById("opNum").value = opNum;
+            }
+            if(isNaN(laneNum)){
+                laneNum = '';
+                document.getElementById("laneNum").value = laneNum;
+            }
+
+            // testing visualization
+            console.log("___________Values___________");
+            console.log("Store: " + storeNum);
+            console.log("Starting: " + startDate);
+            console.log("Number of Months: " + endDate);
+            console.log("Active employees only? " + isActive);
+            console.log("Required audits only? " + requiredAudit);
+            console.log("Search by Op #: " + opNum);
+            console.log("Search by Lane #: " + laneNum);
+            console.log("Search by Lane Type: " + laneType);
+            console.log("\n");
+        } // end setValues()
+
+        /*
+        *   called when user submits
+        *   returns url used to generator the report
+        */
+/*      function formURL() {
+            // check if form is valid
+            if(storeNumBlank()){
+                return;
+            }
+
+            var baseURL = "http://10.30.7.115:8080/audittracking/reports/runreport?reportName=Audit&outputFormat=PDF"; // TODO: Dynamically get ip
+
+            // url parameters
+            var storeParam = "&storeNumber=";
+            var startDateParam = "&startDate=";
+            var monthParam = "&month=";
+            var activeParam = "&active=";
+            var requiresParam = "&requires=";
+            var opNumParam = "&opNum=";
+            var laneNumberParam = "&laneNumber=";
+            var laneTypeParam = "&laneType=";
+
+            // form url while inserting user inputed/default values
+            var finalURL = 
+            baseURL + storeParam+storeNum + 
+            startDateParam+startDate + 
+            monthParam+endDate + 
+            activeParam+isActive + 
+            requiresParam+requiredAudit + 
+            opNumParam+opNum + 
+            laneNumberParam+laneNum + 
+            laneTypeParam+laneType;
+
+            //console.log(finalURL);
+
+            return finalURL;
+
+            // redirect user to new form ... PROTOTYPE LOGIC
+            //window.location.href = finalURL;
+        } // end formURL()
+*/
+
+        /*
+        *   ensures form validation before sumbitting
+        *   called when user submits forms
+        */
+        function validateForm() {
+            if(storeNumBlank()){
+                return false;
+            } else {
+                setValues();
+                /*var url = formURL();
+
+                // replace old embed report (can't refresh), with new one
+                document.getElementById("reportBox").innerHtml = '<embed id="report" width="100%" height="100%" name="plugin" src="'+url+'" type="application/pdf">';
+
+                console.log(document.getElementById("reportBox").innerHtml);*/
+
+                return true;
+            }
+        }
+
+
+        // Helper Functions ///
+
+        /*
+        *   returns the current date in YYYY-MM-DD format
+        */
+        function getCurrentDate() {
+            var newDate = new Date();
+
+            var currMonth = newDate.getMonth()+1;
+            if(currMonth < 10){
+                currMonth ='0'+currMonth;
+            }
+
+            var currDate = newDate.getDate();
+            if(currDate < 10){
+                currDate ='0'+currDate;
+            }
+
+            var currYear = newDate.getYear()+1900;
+            var date = currYear+'-'+currMonth+'-'+currDate;
+            return date;
+        } // end getCurrentDate()
+
+        function storeNumBlank() {
+            // set storeNum value to user input
+            storeNum = document.getElementById("storeNum").value;
+            //console.log(storeNum);
+
+            if(storeNum === null || storeNum ===''){
+                console.log("Please choose a store number");
+                return true;
+            } else {
+                return false;
+            }
+        } // end storeNumBlank
+       /* function test(){
+            alert("Hi");
+            alert("http://10.30.7.115:8080/audittracking/reports/runreport");
+            //alert(return validateForm());
+        }*/
+
+
+        $('#auditReport').submit(function(event) {
+        	event.preventDefault();
+		alert("submitting form");
+        	validateForm();
+		var data=$(this).serialize(); 
+		$.get('http://10.30.7.115:8080/audittracking/reports/runreport', data, function(returnData) { 
+			alert("running report");
+			$('report').html(returnData); 
+		});
+        });
+
+
+    </script>
+<body>
+    <nav class="navbar navbar-inverse navbar-static-top">
+        <!--::before -->
+        <div class="container-fluid">
+            <!--::before -->
+            <div class="navbar-header">
+                <!--::before -->
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">AholdUSA</a>
+                <!--::after -->
+            </div>
+            
+            <div class="navbar-collapse collapse">
+                <!--::before -->
+                <ul class="nav navbar-nav">
+                    <!--::before -->
+                    <li class="active">
+                        <a href="#">Home</a>
+                    </li>
+                    <li>
+                        <a href="#about">About</a>
+                    </li>   
+                    <li>
+                        <a href="#contact">Contact</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            "Dropdown "
+                            <span class="caret"></span>
+                        </a>
+                    </li>
+                    <!--::after -->
+                </ul>
+                <!--::after -->
+            </div>
+                <!--::after -->
+            </div>  
+            <!--::after -->
+        </nav>
+
+        <div class=" container well bs-example">
+                <form id="auditReport" class="form-inline" >
+                    
+                    <div>
+                        <div class="form-group form-group-sm">
+                            <input type="hidden" name="reportName" value="Audit" />
+                            <input type="hidden" name="outputFormat" value="PDF" />
+                            <label class="sr-only" for="storeNum">Store #</label>
+                            <input type="text" id="storeNum" name="storeNumber" class="form-control" placeholder="Store#" value="6962" oninput="setValues();" required/>     
+                        </div>      
+                            
+                        <div class="form-group form-group-sm">  
+                            <label class="sr-only" for="startDate">Start Date</label>
+                            <input type="date" id="startDate" name="startDate" min="2015-01-01" class="form-control" placeholder="Start date in MM/DD/YY" oninput="setValues();" /> 
+                        </div>  
+                            
+                        <div class="form-group form-group-sm">      
+                            <label class="sr-only" for="endDate">End Date</label>
+                            <input type="date" id="endDate" min="2015-01-01" name="endDate" class="form-control" placeholder="End date in M/DD/YY" oninput="setValues();" />
+                        </div>
+
+                        <!-- <div class="form-group form-group-sm">
+                            <label for="isActive">Active Employees</label>
+                            <input type="checkbox" id="isActive" name="active" value="Y" onchange="setValues();" />
+                        </div>
+
+                        <div class="form-group form-group-sm">
+                            <label for="requiredAudit">Required Audits</label>
+                            <input type="checkbox" id="requiredAudit" name="requires" value="3" onchange="setValues();" />
+                        </div> -->
+
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox"> Active Employees
+                            </label>    
+                        </div>
+
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox"> Required Audits
+                            </label>    
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading clickable">
+                                        <h3 class="panel-title">Advanced Search</h3>
+                                        <span class="pull-right"><i class="glyphicon-chevron-up glyphicon1"></i></span>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="form-group form-group-sm">  
+                                            <label class="sr-only" for="opNum">Operator #</label>
+                                            <input type="text" id="opNum" name="opNum" class="form-control" placeholder="Operator #" oninput="setValues();" />
+                                        </div>
+
+                                        <div class="form-group form-group-sm">  
+                                            <label class="sr-only" for="laneNum">Lane #</label>
+                                            <input type="text" id="laneNum" name="laneNumber" class="form-control" placeholder="Lane#" oninput="setValues();" />
+                                        </div>
+
+                                        <div class="form-group form-group-sm">  
+                                            <label class="sr-only" for="laneType">Lane Type</label>
+                                            <input type="text" id="laneType" name="laneType" class="form-control" placeholder="Lane Type" oninput="setValues();" />
+                                        </div>
+                                    </div>  
+                                </div>
+                            </div>
+                        </div>
+                    </div>              
+                    
+                    <!-- <div>  
+
+                        <div class="form-group form-group-sm">  
+                            <label class="sr-only" for="opNum">Operator #</label>
+                            <input type="text" id="opNum" name="opNum" class="form-control" placeholder="Operator #" oninput="setValues();" />
+                        </div>
+
+                        <div class="form-group form-group-sm">  
+                            <label class="sr-only" for="laneNum">Lane #</label>
+                            <input type="text" id="laneNum" name="laneNumber" class="form-control" placeholder="Lane#" oninput="setValues();" />
+                        </div>
+
+                        <div class="form-group form-group-sm">  
+                            <label class="sr-only" for="laneType">Lane Type</label>
+                            <input type="text" id="laneType" name="laneType" class="form-control" placeholder="Lane Type" oninput="setValues();" />
+                        </div>
+                    </div> -->  
+                    <br>
+                    <div>
+                        <button type="submit" class="btn btn-primarylar">Submit</button>
+                    </div>  
+                </form>
+
+            </div> 
+        <div id="reportBox">
+            <embed id="report" target="_self" width="100%" height="100%" name="plugin" src="" type="application/pdf"> 
+        </div>
+</body>
+</html>
+

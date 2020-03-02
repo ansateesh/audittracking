@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-init-method="init" default-destroy-method="cleanUp" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/beans"
+  xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+                           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+  <!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+
+  <!-- Scans within the base package of the application for @Components to configure as beans -->
+  <!-- @Controller, @Service, @Configuration, etc. -->
+  <context:component-scan base-package="com.aholdusa.am.audittracking.controller" />
+
+  <!-- Enables the Spring MVC @Controller programming model -->
+  <mvc:annotation-driven/>
+    <mvc:resources mapping="/resources/**" location="/resources/"/> 
+ 
+
+	 
+  <!-- Use with Jackson's hibernate module to resolve cycles in Bi-Directional relationships -->
+  <!-- <mvc:annotation-driven>
+    <mvc:message-converters>
+      Use the HibernateAware mapper instead of the default
+      <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+        <property name="objectMapper">
+          <bean class="com.aholdusa.am.audittracking.util.HibernateAwareObjectMapper" />
+        </property>
+      </bean>
+    </mvc:message-converters>
+  </mvc:annotation-driven>
+ -->
+ 
+  <!-- Enabling annotation and post processors -->
+  <context:annotation-config />
+  <!-- context:load-time-weaver/ -->
+  
+  <bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/pages/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+</beans>

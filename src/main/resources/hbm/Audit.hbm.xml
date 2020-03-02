@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="true" default-lazy="false"
+	default-access="field">
+	<class name="com.aholdusa.am.audittracking.entity.Audit" table="AUDITS"
+		dynamic-update="true">
+		<id name="id" column="AUDITS_ID" type="java.lang.Long">
+			<!-- <generator class="identity" />   -->
+			<generator class="native">
+                        <param name="sequence">seq_audits_id</param>
+                </generator>
+		</id>
+
+		<property name="storeNumber" column="STORE_NUMBER" type="java.lang.Integer"
+			not-null="true" />
+		<property name="date" column="AUDIT_DATE" type="java.sql.Timestamp"
+			not-null="true" />
+		<property name="startTime" column="START_TIME" type="java.sql.Timestamp"
+			not-null="true" />
+
+		<property name="cashPosition" type="java.lang.Double">
+			<column name="CASH_POSITION" sql-type="number" not-null="true" />
+		</property>
+
+		<property name="cashExpected" type="java.lang.Double">
+			<column name="CASH_EXPECTED" sql-type="number" not-null="true" />
+		</property>
+
+		<property name="cashActual" type="java.lang.Double" >
+			<column name="CASH_ACTUAL" sql-type="number" not-null="true" />
+		</property>
+		
+		<property name="cashLoan" type="java.lang.Double" >
+			<column name="CASH_LOAN" sql-type="number" not-null="true" />
+		</property>
+		
+		<property name="cashDifference" type="java.lang.Double" >
+			<column name="CASH_DIFFERENCE" sql-type="number" not-null="true" />
+		</property>
+
+		<property name="cashOverUnder"  type="java.lang.Double" >
+			<column name="CASH_OVER_UNDER" sql-type="number" not-null="true" />
+		</property>
+		
+		
+		<property name="checkPosition" type="java.lang.Double" >
+			<column name="CHECK_POSITION" sql-type="number" not-null="true" />
+		</property>
+		
+		
+		<property name="checkExpected"  type="java.lang.Double" >
+			<column name="CHECK_EXPECTED" sql-type="number" not-null="true" />
+		</property>
+		
+		
+		<property name="checkActual"  type="java.lang.Double" >
+			<column name="CHECK_ACTUAL" sql-type="number" not-null="true" />
+		</property>
+		
+		
+		<property name="checkDifference" type="java.lang.Double" >
+			<column name="CHECK_DIFFERENCE" sql-type="number" not-null="true" />
+		</property>
+		
+		
+		<property name="checkOverUnder" type="java.lang.Double">
+			<column name="CHECK_OVER_UNDER" sql-type="number" not-null="true" />
+		</property>
+		
+		
+		<property name="notes" column="NOTES" type="java.lang.String" />
+		<property name="slip" type="java.lang.String">
+			<column name="SLIP" sql-type="clob" not-null="true" />
+		</property>
+		<property name="empSignature" type="java.lang.String">
+			<column name="EMP_SIGNATURE" sql-type="clob" not-null="true" />
+		</property>
+		<property name="mgrSignature" type="java.lang.String">
+			<column name="MGR_SIGNATURE" sql-type="clob" not-null="true" />
+		</property>
+		<property name="position" column="POSITION" type="java.lang.Integer" />
+		<property name="version" column="VERSION" type="java.lang.Long"
+			not-null="true" />
+		<property name="createdBy" column="CREATED_BY" type="java.lang.String" />
+		<property name="createDate" column="CREATED_DATE" type="java.sql.Timestamp" />
+		<property name="lastModifiedBy" column="LAST_MODIFIED_BY"
+			type="java.lang.String" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			type="java.sql.Timestamp" />
+			
+		<property name="isDeleted"  type="boolean" >
+			<column name="IS_DELETED" sql-type="char" not-null="true" />
+		</property>
+		
+		<many-to-one name="lane"
+			class="com.aholdusa.am.audittracking.entity.Lane" fetch="select">
+			<column name="LANE_ID" not-null="true" />
+		</many-to-one>
+
+		<many-to-one name="employee"
+			class="com.aholdusa.am.audittracking.entity.Employee" fetch="select">
+			<column name="EMPLOYEE_ID" not-null="true" />
+		</many-to-one>
+		<!-- <property name="employeeId" column="EMPLOYEE_ID" type="java.lang.Long" 
+			/> <property name="laneId" column="LANE_ID" type="java.lang.Long" /> -->
+	</class>
+
+
+	<query name="findAllAuditsByDate">
+			<![CDATA[
+			select audit from Audit audit 
+			where storeNumber = :storeNumber and
+			isDeleted = '0' and date = :date
+			]]>
+	</query>
+
+	<query name="findAllAuditsByEmployee">
+			<![CDATA[
+			select audit from Audit audit 
+			where storeNumber = :storeNumber and
+			isDeleted = '0'
+			and employee = ( select employee from Employee employee where isDeleted
+			= 0 and storeNumber = :storeNumber and operatorNumber =
+			:operatorNumber)
+			order by startTime DESC
+			]]>
+	</query>
+
+	<!-- Audit Report by StoreNumber, LaneNumber, OperNumber, Begin and End Date  -->
+	<query name="findAllAuditsByEmployeeLaneBeginEndDate">
+			<![CDATA[
+			select audit from Audit audit 
+			where storeNumber = :storeNumber and
+			isDeleted = '0'
+			and employee = ( select employee from Employee employee where isDeleted
+			= 0 and storeNumber = :storeNumber and operatorNumber =
+			:operatorNumber)
+			and lane = ( select lane from Lane lane where isDeleted
+			= 0 and storeNumber = :storeNumber and number = :laneNumber)
+			and date >= :beginDate 
+			and date <= :endDate
+			]]>
+	</query>
+	
+	
+	<!-- Audit Report by StoreNumber, LaneNumber, OperNumber, Begin and End Date  -->
+	<query name="findAuditsByStoreNumberBeginEndDate">
+			<![CDATA[
+			select audit from Audit audit 
+			where storeNumber = :storeNumber and
+			isDeleted = '0'
+			and date >= :beginDate 
+			and date <= :endDate
+			]]>
+	</query>
+	
+	<!-- Audit Report by StoreNumber, Operator Number, LaneNumber, OperNumber, Begin and End Date  -->
+	<query name="findAuditsByStoreNumberOperatorNumberBeginEndDate">
+			<![CDATA[
+			select audit from Audit audit 
+			where storeNumber = :storeNumber and
+			isDeleted = '0'
+			and employee = ( select employee from Employee employee where isDeleted
+			= 0 and storeNumber = :storeNumber and operatorNumber =
+			:operatorNumber)
+			and date >= :beginDate 
+			and date <= :endDate
+			]]>
+	</query>
+	
+	<query name="findAllAuditsByEmployeeAndDate">
+			<![CDATA[
+			select audit from Audit audit where storeNumber = :storeNumber and
+			isDeleted = '0'
+			and employee = ( select employee from Employee employee where isDeleted
+			= 0 and storeNumber = :storeNumber and operatorNumber =
+			:operatorNumber)
+			and date = :date
+			]]>
+	</query>
+
+	<query name="findAllAuditsByLaneAndDate">
+			<![CDATA[
+			select audit from Audit audit where storeNumber = :storeNumber and
+			isDeleted = '0'
+			and lane = ( select lane from Lane lane where isDeleted
+			= 0 and storeNumber = :storeNumber and number =
+			:laneNumber)
+			and trunc(date) = trunc(:date)
+			]]>
+	</query>
+	
+	<query name="findAuditsByLane">
+			<![CDATA[
+			select audit from Audit audit where storeNumber = :storeNumber and
+			isDeleted = '0'
+			and lane = ( select lane from Lane lane where isDeleted
+			= 0 and storeNumber = :storeNumber and number = :laneNumber)
+			and trunc(date) = trunc(:date)
+			and position >1
+			and trunc(audit.startTime,'MI') >= trunc(:startTime,'MI')
+			order by date DESC
+			]]>
+	</query>
+	
+		<query name="findLaneInAudit">
+			<![CDATA[
+			select audit.id from Audit audit where storeNumber = :storeNumber and
+			isDeleted = '0'
+			 and lane = ( select lane from Lane lane where isDeleted
+			= '0' and storeNumber = :storeNumber and number = :laneNumber)
+			and trunc(date) = trunc(:date)
+			and position >1
+			and trunc(audit.startTime,'MI') >= trunc(:startTime,'MI')
+			order by date DESC
+			]]>
+	</query>
+	
+	<query name="reEnableLaneInAudits">
+	    <![CDATA[
+	    update Audit audit set isDeleted = '0' where lane = ( select lane from Lane lane where id = :laneId and storeNumber = :storeNumber)
+	    ]]>
+    </query>
+    
+    <query name="deleteLaneInAudits">
+	    <![CDATA[
+	    update Audit audit set isDeleted = '1' where lane = ( select lane from Lane lane where id = :laneId and storeNumber = :storeNumber)
+	    ]]>
+    </query>
+	
+	
+</hibernate-mapping>
