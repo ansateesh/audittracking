@@ -84,7 +84,7 @@
 			where activityLogs.storeNumber = :storeNumber  
 			and activityLogs.isDeleted = '0'
 			and activityType= :activityType 
-			and trunc(activityLogs.createDate) = trunc(:cDate)
+			and DATE(activityLogs.createDate) = DATE(:cDate)
 			]]>
 	</query>
  
@@ -94,7 +94,7 @@
 			where 
 			activityLogs.storeNumber = :storeNumber  
 			and activityLogs.activityType= :activityType 
-			and trunc(activityLogs.createDate) = trunc(:createDate)
+			and DATE(activityLogs.createDate) = DATE(:createDate)
 			and activityLogs.isDeleted = '0'
 			and activityLogs.mgrOpNum= :mgrOpNum
 			order by activityLogs.createDate desc
@@ -117,7 +117,7 @@
 			and activityLogs.isDeleted = '0'
 			and activityLogs.activityType= :activityType 
 			and activityLogs.empOpNum = :empOpNum
-			and trunc(activityLogs.createDate) = trunc(:createdDate)
+			and DATE(activityLogs.createDate) = DATE(:createdDate)
 			]]>
 	</query>
 	

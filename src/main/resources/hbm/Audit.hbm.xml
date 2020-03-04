@@ -187,7 +187,7 @@
 			and lane = ( select lane from Lane lane where isDeleted
 			= 0 and storeNumber = :storeNumber and number =
 			:laneNumber)
-			and trunc(date) = trunc(:date)
+			and DATE(date) = DATE(:date)
 			]]>
 	</query>
 	
@@ -197,9 +197,9 @@
 			isDeleted = '0'
 			and lane = ( select lane from Lane lane where isDeleted
 			= 0 and storeNumber = :storeNumber and number = :laneNumber)
-			and trunc(date) = trunc(:date)
+			and DATE(date) = DATE(:date)
 			and position >1
-			and trunc(audit.startTime,'MI') >= trunc(:startTime,'MI')
+			and DATE(audit.startTime,'MI') >= DATE(:startTime,'MI')
 			order by date DESC
 			]]>
 	</query>
@@ -210,9 +210,9 @@
 			isDeleted = '0'
 			 and lane = ( select lane from Lane lane where isDeleted
 			= '0' and storeNumber = :storeNumber and number = :laneNumber)
-			and trunc(date) = trunc(:date)
+			and DATE(date) = DATE(:date)
 			and position >1
-			and trunc(audit.startTime,'MI') >= trunc(:startTime,'MI')
+			and DATE(audit.startTime,'MI') >= DATE(:startTime,'MI')
 			order by date DESC
 			]]>
 	</query>

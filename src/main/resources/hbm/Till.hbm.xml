@@ -43,7 +43,7 @@
 		select till from Till till where 
 		            storeNumber = :storeNumber
 		     and	isDeleted = '0'
-		 	 and    (trunc(createDate) = trunc(:date))  
+		 	 and    (DATE(createDate) = DATE(:date))  
 		 
 		
 	]]>

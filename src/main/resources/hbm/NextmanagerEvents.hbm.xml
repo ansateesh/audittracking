@@ -41,7 +41,7 @@
 			and nextmanagerEvents.isDeleted = '0'
 			and nextmanagerEvents.eventType= :eventType 
 			and nextmanagerEvents.empOpNum = :empOpNum
-			and trunc(nextmanagerEvents.createDate) = trunc(:createdDate)
+			and DATE(nextmanagerEvents.createDate) = DATE(:createdDate)
 			]]>
 	</query>
   
