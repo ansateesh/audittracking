@@ -199,7 +199,7 @@
 			= 0 and storeNumber = :storeNumber and number = :laneNumber)
 			and DATE(date) = DATE(:date)
 			and position >1
-			and DATE(audit.startTime,'MI') >= DATE(:startTime,'MI')
+			and CONVERT(DATE_FORMAT(audit.startTime, '%Y-%m-%d-%H:%i:00'),DATETIME) >= CONVERT(DATE_FORMAT(:startTime,'%Y-%m-%d-%H:%i:00'),DATETIME)
 			order by date DESC
 			]]>
 	</query>
@@ -212,7 +212,7 @@
 			= '0' and storeNumber = :storeNumber and number = :laneNumber)
 			and DATE(date) = DATE(:date)
 			and position >1
-			and DATE(audit.startTime,'MI') >= DATE(:startTime,'MI')
+			and CONVERT(DATE_FORMAT(audit.startTime, '%Y-%m-%d-%H:%i:00'),DATETIME) >= CONVERT(DATE_FORMAT(:startTime,'%Y-%m-%d-%H:%i:00'),DATETIME)
 			order by date DESC
 			]]>
 	</query>
